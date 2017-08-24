@@ -16,6 +16,40 @@ NOTE: This script requires a full bash environment. Some functions also require 
 
 === Functions
 
+==== setup_symlinks
+Adds symlinks for Maven and/or Gradle caches.
+The current directory should contain `maven` and/or `gradle` cache folders as created by Concourse.
+Syslinks will be created in `$HOME` to `.m2` and `.gradle`.
+
+Setup caches in your task yaml:
+
+[source,yaml]
+.task.yml
+----
+---
+platform: linux
+image_resource:
+  type: docker-image
+  ...
+inputs:
+- name: git-repo
+outputs:
+- name: built-artifact
+caches:
+- path: maven
+- path: gralde
+run:
+  ...
+----
+
+Then call `setup_symlinks` early in your run script:
+
+[source,bash]
+----
+setup_symlinks
+----
+
+TIP: If `~/.m2` or `~/.gradle` folders already exist, they will not be replaced
 
 === Contributing
 See link:CONTRIBUTING.adoc[CONTRIBUTING.adoc] for details of how to contribute.
