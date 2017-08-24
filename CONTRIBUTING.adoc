@@ -1,0 +1,19 @@
+== Contributing
+Contributions and fixes are welcome. To clone the project use the following commands:
+
+[source]
+----
+$ git clone <your repo>
+$ git submodule update --init --recursive
+----
+
+=== Tests
+Tests are written using https://github.com/sstephenson/bats[Bats (Bash Automated Testing System)].
+To run the tests use:
+
+[source]
+----
+$ ./test.sh
+----
+
+Test sources can be found in the `/test` directory.

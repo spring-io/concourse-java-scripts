@@ -1,0 +1,21 @@
+== Concourse Java Scripts
+Useful bash scripts that help when building Java projects in http://concouse.ci[Concourse].
+
+=== Importing
+Copy `concouse-java.sh` to your project or add it to the docker image you use for building.
+Add the following to your build script:
+
+[source,bash]
+----
+#!/bin/bash
+set -e
+source <folder>/concourse-java.sh
+----
+
+NOTE: This script requires a full bash environment. Some functions also require `git`.
+
+=== Functions
+
+
+=== Contributing
+See link:CONTRIBUTING.adoc[CONTRIBUTING.adoc] for details of how to contribute.
