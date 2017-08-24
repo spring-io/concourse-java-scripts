@@ -64,5 +64,36 @@ cleanup_maven_repo com.example.foo
 cleanup_maven_repo com.example.bar
 ----
 
+==== run_maven
+
+Run `./mvnw` from the current directory showing only a limiting subset of the logged output as long as the build succeeds.
+If the build fails, the last 3000 lines of output are shown.
+
+For example, given the following call:
+
+[source,bash]
+----
+run_maven clean install
+----
+
+A successful build would show output looking something like this:
+
+[source]
+----
+./mvnw clean install
+[INFO] ------------------------------------------------------------------------
+[INFO] Building example-project 1.0.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] --- maven-clean-plugin:2.6.1:clean (default-clean) @ example-project ---
+[INFO] --- maven-checkstyle-plugin:2.17:check (checkstyle-validation) @ example-project ---
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ example-project ---
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ example-project ---
+[INFO] --- build-helper-maven-plugin:1.10:add-test-source (add-test-source) @ example-project ---
+[INFO] --- build-helper-maven-plugin:1.10:add-test-resource (add-test-resources) @ example-project ---
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ example-project ---
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ example-project ---
+[INFO] --- maven-surefire-plugin:2.18.1:test (default-test) @ example-project ---
+----
+
 === Contributing
 See link:CONTRIBUTING.adoc[CONTRIBUTING.adoc] for details of how to contribute.

@@ -1,0 +1,4 @@
+#!/bin/bash
+set -e
+cat output
+exit 1
