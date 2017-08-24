@@ -54,3 +54,33 @@ set_revision_to_pom() {
 	grep -q "<revision>.*</revision>" pom.xml || { echo "missing revision tag" >&2; return 1; }
 	sed -ie "s|<revision>.*</revision>|<revision>${1}</revision>|" pom.xml > /dev/null
 }
+
+# Bump version number by incrementing the last numeric, RC or M token
+bump_version_number() {
+	local version=$1
+	[[ -n $version ]] || { echo "missing bump_version_number() argument" >&2; return 1; }
+	if [[ $version =~ ^(.*(\.|-)([A-Za-z]+))([0-9]+)$ ]]; then
+		local prefix=${BASH_REMATCH[1]}
+		local suffix=${BASH_REMATCH[4]}
+		(( suffix++ ))
+		echo "${prefix}${suffix}"
+		return 0;
+	fi
+	local suffix
+	if [[ $version =~ ^(.*)(\-SNAPSHOT)$ ]]; then
+		version=${BASH_REMATCH[1]}
+		suffix="-SNAPSHOT"
+	fi
+	tokens=(${version//\./ })
+	local bumpIndex
+	for i in "${!tokens[@]}"; do
+		if [[ "${tokens[$i]}" =~ ^[0-9]+$ ]] ; then
+			bumpIndex=$i
+		fi
+	done
+	[[ -n $bumpIndex ]] || { echo "unsupported version number" >&2; return 1; }
+	(( tokens[bumpIndex]++ ))
+	local bumpedVersion
+	IFS=. eval 'bumpedVersion="${tokens[*]}"'
+	echo "${bumpedVersion}${suffix}"
+}

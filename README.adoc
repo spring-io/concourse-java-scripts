@@ -156,5 +156,44 @@ set_revision_to_pom "2.0.0"
 
 TIP: For details of how you can use `<revision>` in your builds see https://maven.apache.org/maven-ci-friendly.html[Maven CI Friendly Versions]
 
+==== bump_version_number
+Updates a version number by bumping the milestone (`M`), release candidate (`RC`) or patch number.
+
+For example, if `version` is `1.2.3` the result in `next` will be `1.2.4`:
+[source,bash]
+----
+next=$( bump_version_number $version)
+----
+
+The following formats are supported:
+
+|===
+|Input |Output
+
+|1.2.3
+|1.2.4
+
+|1.2.3-SNAPSHOT
+|1.2.4-SNAPSHOT
+
+|1.2.3.BUILD-SNAPSHOT
+|1.2.4.BUILD-SNAPSHOT
+
+|1.2.3.RELEASE
+|1.2.4.RELEASE
+
+|1.2.3-M1
+|1.2.3-M2
+
+|1.2.3.M1
+|1.2.3.M2
+
+|1.2.3-RC1
+|1.2.3-RC2
+
+|1.2.3.RC1
+|1.2.3.RC2
+|===
+
 === Contributing
 See link:CONTRIBUTING.adoc[CONTRIBUTING.adoc] for details of how to contribute.
