@@ -42,3 +42,8 @@ run_maven() {
 	kill "$(<pid)"
 	sleep 1
 }
+
+# Get the revision from a POM file
+get_revision_from_pom() {
+	xmllint --xpath '/*[local-name()="project"]/*[local-name()="properties"]/*[local-name()="revision"]/text()' pom.xml
+}
