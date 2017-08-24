@@ -126,6 +126,35 @@ NOTE: This command relies on `xmllint` being installed
 
 TIP: For details of how you can use `<revision>` in your builds see https://maven.apache.org/maven-ci-friendly.html[Maven CI Friendly Versions]
 
+==== set_revision_to_pom
+Sets the `<version>` property to a `pom.xml` in the current directoy.
+
+For example, given the following `pom.xml`:
+
+[source,xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.example</groupId>
+	<artifactId>example-project</artifactId>
+	<version>${revision}</version>
+	<properties>
+		<revision>1.0.0-SNAPSHOT</revision>
+		<java.version>1.8</java.version>
+	</properties>
+</project>
+----
+
+The following call would set `version` to `2.0.0`:
+
+[source,bash]
+----
+set_revision_to_pom "2.0.0"
+----
+
+TIP: For details of how you can use `<revision>` in your builds see https://maven.apache.org/maven-ci-friendly.html[Maven CI Friendly Versions]
 
 === Contributing
 See link:CONTRIBUTING.adoc[CONTRIBUTING.adoc] for details of how to contribute.
