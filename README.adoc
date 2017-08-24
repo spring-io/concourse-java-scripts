@@ -51,5 +51,18 @@ setup_symlinks
 
 TIP: If `~/.m2` or `~/.gradle` folders already exist, they will not be replaced
 
+==== cleanup_maven_repo
+Remove a folder from the local `~/.m2/repository` folder.
+This command is often used to ensure that no accidental cache pollution has occurred.
+
+Call with a single maven group identified.
+For example:
+
+[source,bash]
+----
+cleanup_maven_repo com.example.foo
+cleanup_maven_repo com.example.bar
+----
+
 === Contributing
 See link:CONTRIBUTING.adoc[CONTRIBUTING.adoc] for details of how to contribute.

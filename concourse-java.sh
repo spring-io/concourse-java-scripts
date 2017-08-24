@@ -20,3 +20,15 @@ setup_symlinks() {
 		ln -s "$PWD/gradle" "$HOME/.gradle"
 	fi
 }
+
+# Cleanup a local maven repo. For example `cleanup_maven_repo "org.springframework.boot"`
+cleanup_maven_repo() {
+	M2_LOCAL_REPO=${M2_LOCAL_REPO:-/${HOME}/.m2/repository}
+	[[ -n $1 ]] || { echo "missing cleanup_maven_repo() argument" >&2; return 1; }
+	local repoPath
+	repoPath="${M2_LOCAL_REPO}"/$(echo "$1" | tr . /)
+	if [[ -d "$repoPath" ]]; then
+		echo "Cleaning local maven repo \"$1\""
+		rm -fr "$repoPath" 2> /dev/null || :
+	fi
+}
