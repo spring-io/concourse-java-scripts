@@ -84,3 +84,15 @@ bump_version_number() {
 	IFS=. eval 'bumpedVersion="${tokens[*]}"'
 	echo "${bumpedVersion}${suffix}"
 }
+
+# Remove any "-SNAPSHOT" or ".BUILD-SNAPSHOT" suffix
+strip_snapshot_suffix() {
+	[[ -n $1 ]] || { echo "missing get_relase_version() argument" >&2; return 1; }
+	if [[ $1 =~ ^(.*)\.BUILD-SNAPSHOT$ ]]; then
+		echo "${BASH_REMATCH[1]}"
+	elif [[ $1 =~ ^(.*)-SNAPSHOT$ ]]; then
+		echo "${BASH_REMATCH[1]}"
+	else
+		echo "$1"
+	fi
+}

@@ -195,5 +195,16 @@ The following formats are supported:
 |1.2.3.RC2
 |===
 
+==== strip_snapshot_suffix
+Remove any `-SNAPSHOT` or `.BUILD-SNAPSHOT` suffix from the provided version number.
+
+For example, the following would both set `version` to `"1.2.3"`:
+
+[source,bash]
+----
+version=$( strip_snapshot_suffix "1.2.3-SNAPSHOT" )
+version=$( strip_snapshot_suffix "1.2.3.BUILD-SNAPSHOT" )
+----
+
 === Contributing
 See link:CONTRIBUTING.adoc[CONTRIBUTING.adoc] for details of how to contribute.
