@@ -206,5 +206,28 @@ version=$( strip_snapshot_suffix "1.2.3-SNAPSHOT" )
 version=$( strip_snapshot_suffix "1.2.3.BUILD-SNAPSHOT" )
 ----
 
+==== get_next_milestone_release / get_next_rc_release
+Get the next milestone or release candidate version based on a given version and existing git tags.
+These methods allow preview releases to be published, without needing to directly store the release number.
+
+For example, given a repository with the following tags:
+
+[source]
+----
+$ git tag --list
+v1.0.0.M1
+v1.0.0.M2
+v1.0.0.M3
+----
+
+The following call will set `next` to `1.0.0.M4`.
+
+[source,bash]
+----
+next=$( get_next_milestone_release "1.0.0.BUILD-SNAPSHOT")
+----
+
+TIP: Version numbers in the form `1.0.0-SNAPSHOT` and `1.0.0.BUILD-SNAPSHOT` are both supported
+
 === Contributing
 See link:CONTRIBUTING.adoc[CONTRIBUTING.adoc] for details of how to contribute.

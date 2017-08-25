@@ -55,6 +55,39 @@ set_revision_to_pom() {
 	sed -ie "s|<revision>.*</revision>|<revision>${1}</revision>|" pom.xml > /dev/null
 }
 
+# Get the next milestone release for the given number by inspecting current tags
+get_next_milestone_release() {
+	[[ -n $1 ]] || { echo "missing get_next_milestone_release() version argument" >&2; return 1; }
+	get_next_tag_based_release "$1" "M"
+}
+
+# Get the next RC release for the given number by inspecting current tags
+get_next_rc_release() {
+	[[ -n $1 ]] || { echo "missing get_next_rc_release() version argument" >&2; return 1; }
+	get_next_tag_based_release "$1" "RC"
+}
+
+# Get the next milestone or RC release for the given number by inspecting current tags
+get_next_tag_based_release() {
+	[[ -n $1 ]] || { echo "missing get_next_tag_based_release() version argument" >&2; return 1; }
+	[[ -n $2 ]] || { echo "missing get_next_tag_based_release() tag type argument" >&2; return 1; }
+	if [[ $1 =~ ^(.*)\.BUILD-SNAPSHOT$ ]]; then
+		local join="."
+	else
+		local join="-"
+	fi
+	local version
+	local last
+	version=$( strip_snapshot_suffix "$1" )
+	git fetch --tags --all > /dev/null
+	last=$( git tag --list "v${version}${join}${2}*" | sed -E "s/^.*${2}([0-9]+)$/\1/g" | sort -rn | head -n1 )
+	if [[ -z $last ]]; then
+		last="0"
+	fi
+	last="${version}${join}${2}${last}"
+	bump_version_number "$last"
+}
+
 # Bump version number by incrementing the last numeric, RC or M token
 bump_version_number() {
 	local version=$1
