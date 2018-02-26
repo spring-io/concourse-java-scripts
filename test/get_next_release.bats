@@ -84,6 +84,19 @@ source "$PWD/concourse-java.sh"
 	assert_output "2.0.0.B3"
 }
 
+@test "get_next_release() should return next release version" {
+	run get_next_release "1.5.0.BUILD-SNAPSHOT"
+	assert_output "1.5.0.RELEASE"
+	run get_next_release "1.5.0-SNAPSHOT"
+	assert_output "1.5.0-RELEASE"
+}
+
+@test "get_next_release() when has no version should fail" {
+	run get_next_release
+	assert [ "$status" -eq 1 ]
+	assert_output "missing get_next_release() version argument"
+}
+
 mock_git_repo() {
 	local tmpdir=$(mktemp -d $BATS_TMPDIR/gitrepo.XXXXXX) >&2
 	mkdir -p "$tmpdir" >&2
