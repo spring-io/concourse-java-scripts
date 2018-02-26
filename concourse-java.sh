@@ -55,6 +55,21 @@ set_revision_to_pom() {
 	sed -ie "s|<revision>.*</revision>|<revision>${1}</revision>|" pom.xml > /dev/null
 }
 
+# Get the next release for the given number
+get_next_release() {
+	[[ -n $1 ]] || { echo "missing get_next_release() version argument" >&2; return 1; }
+	if [[ $1 =~ ^(.*)\.BUILD-SNAPSHOT$ ]]; then
+		local join="."
+	else
+		local join="-"
+	fi
+	local version
+	local result
+	version=$( strip_snapshot_suffix "$1" )
+	result="${version}${join}RELEASE"
+	echo $result
+}
+
 # Get the next milestone release for the given number by inspecting current tags
 get_next_milestone_release() {
 	[[ -n $1 ]] || { echo "missing get_next_milestone_release() version argument" >&2; return 1; }
