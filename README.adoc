@@ -206,6 +206,19 @@ version=$( strip_snapshot_suffix "1.2.3-SNAPSHOT" )
 version=$( strip_snapshot_suffix "1.2.3.BUILD-SNAPSHOT" )
 ----
 
+==== get_next_release
+Get the release version based on a given snapshot version.
+
+The following call will set `next` to `1.0.0.RELEASE`.
+
+[source,bash]
+----
+next=$( get_next_milestone_release "1.0.0.BUILD-SNAPSHOT")
+----
+
+TIP: Version numbers in the form `1.0.0-SNAPSHOT` and `1.0.0.BUILD-SNAPSHOT` are both supported
+
+
 ==== get_next_milestone_release / get_next_rc_release
 Get the next milestone or release candidate version based on a given version and existing git tags.
 These methods allow preview releases to be published, without needing to directly store the release number.
