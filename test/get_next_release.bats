@@ -102,6 +102,8 @@ mock_git_repo() {
 	mkdir -p "$tmpdir" >&2
 	cd "$tmpdir" >&2
 	git init >&2
+	git config user.name "Test User" >&2
+    git config user.email "test@example.org" >&2
 	echo "foo" > foo.txt
 	git add foo.txt >&2
 	git commit -m'Initial commit' >&2
