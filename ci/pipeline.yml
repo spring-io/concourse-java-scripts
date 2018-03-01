@@ -1,0 +1,71 @@
+resources:
+- name: git-repo
+  type: git
+  source:
+    uri: https://github.com/mbhave/concourse-java-scripts
+    branch: master
+    ignore_paths: ["ci/images/*"]
+- name: ci-images-git-repo
+  type: git
+  source:
+    uri: https://github.com/mbhave/concourse-java-scripts
+    username: ((github-username))
+    password: ((github-password))
+    branch: master
+    paths: ["ci/images/*"]
+- name: concourse-java-scripts-ci-image
+  type: docker-image
+  source:
+    repository: mbhave/concourse-java-scripts-ci-image
+    username: ((docker-hub-username))
+    password: ((docker-hub-password))
+    tag: master
+jobs:
+- name: build-concourse-java-scripts-ci-image
+  plan:
+  - get: ci-images-git-repo
+    trigger: true
+  - put: concourse-java-scripts-ci-image
+    params:
+      build: ci-images-git-repo/ci/images/concourse-java-scripts-ci-image
+- name: test
+  plan:
+  - get: git-repo
+    trigger: true
+  - task: test
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source:
+          repository: mbhave/concourse-java-scripts-ci-image
+          tag: master
+      inputs:
+        - name: git-repo
+      run:
+        path: git-repo/ci/scripts/test.sh
+- name: release
+  plan:
+  - get: git-repo
+    passed: [test]
+    trigger: false
+  - task: release
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source:
+          repository: mbhave/concourse-java-scripts-ci-image
+          tag: master
+      inputs:
+        - name: git-repo
+      params:
+          MINOR_VERSION: 0
+          MAJOR_VERSION: 0
+      run:
+        path: git-repo/ci/scripts/release.sh
+  - put: git-repo
+    params:
+      repository: release-git-repo
+
+
