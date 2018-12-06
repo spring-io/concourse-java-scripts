@@ -1,5 +1,5 @@
 == Concourse Java Scripts
-Useful bash scripts that help when building Java projects in http://concouse.ci[Concourse].
+Useful bash scripts that help when building Java projects in http://concourse.ci[Concourse].
 
 === Importing
 Copy `concouse-java.sh` to your project or add it to the docker image you use for building.
