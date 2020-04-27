@@ -84,11 +84,18 @@ source "$PWD/concourse-java.sh"
 	assert_output "2.0.0.B3"
 }
 
+@test "get_next_release() should return next release version with release suffix" {
+	run get_next_release "1.5.0.BUILD-SNAPSHOT" "RELEASE"
+	assert_output "1.5.0.RELEASE"
+	run get_next_release "1.5.0-SNAPSHOT" "RELEASE"
+	assert_output "1.5.0-RELEASE"
+}
+
 @test "get_next_release() should return next release version" {
 	run get_next_release "1.5.0.BUILD-SNAPSHOT"
-	assert_output "1.5.0.RELEASE"
+	assert_output "1.5.0"
 	run get_next_release "1.5.0-SNAPSHOT"
-	assert_output "1.5.0-RELEASE"
+	assert_output "1.5.0"
 }
 
 @test "get_next_release() when has no version should fail" {
