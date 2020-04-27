@@ -78,7 +78,11 @@ get_next_release() {
 	local version
 	local result
 	version=$( strip_snapshot_suffix "$1" )
-	result="${version}${join}RELEASE"
+	if [[ -n $2 ]]; then
+	  result="${version}${join}${2}"
+	else
+	  result="${version}"
+	fi
 	echo $result
 }
 

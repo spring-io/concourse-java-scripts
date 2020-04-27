@@ -127,7 +127,7 @@ NOTE: This command relies on `xmllint` being installed
 TIP: For details of how you can use `<revision>` in your builds see https://maven.apache.org/maven-ci-friendly.html[Maven CI Friendly Versions]
 
 ==== set_revision_to_pom
-Sets the `<version>` property to a `pom.xml` in the current directoy.
+Sets the `<version>` property to a `pom.xml` in the current directory.
 
 For example, given the following `pom.xml`:
 
@@ -211,11 +211,18 @@ version=$( strip_snapshot_suffix "1.2.3.BUILD-SNAPSHOT" )
 ==== get_next_release
 Get the release version based on a given snapshot version.
 
-The following call will set `next` to `1.0.0.RELEASE`.
+The following call will set `next` to `1.0.0`.
 
 [source,bash]
 ----
 next=$( get_next_milestone_release "1.0.0.BUILD-SNAPSHOT" )
+----
+
+You can also configure a release suffix; the following call will set `next` to `1.0.0.RELEASE`.
+
+[source,bash]
+----
+next=$( get_next_milestone_release "1.0.0.BUILD-SNAPSHOT" "RELEASE" )
 ----
 
 TIP: Version numbers in the form `1.0.0-SNAPSHOT` and `1.0.0.BUILD-SNAPSHOT` are both supported
