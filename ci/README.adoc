@@ -1,0 +1,30 @@
+== Concourse pipeline
+
+To set the pipeline first create a file in this directory called `secrets.yml`:
+
+[source,yaml]
+.secrets.yml
+----
+docker-hub-username: "<username>"
+docker-hub-password: "<secret>"
+github-username: "<username>"
+github-password: "<secret>"
+----
+
+NOTE: The file should be ignored by git, make sure that you don't commit it!
+
+Once the file has been created, the pipeline can be deployed:
+
+[source]
+----
+$ fly -t spring set-pipeline -p concourse-java-scripts -c ci/pipeline.yml --load-vars-from secrets.yml
+----
+
+=== Release
+
+To perform a release run:
+
+[source]
+----
+$ fly -t spring trigger-job -j concourse-java-scripts/release
+----
